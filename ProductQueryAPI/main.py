@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
 app = FastAPI(title="Product Query API")
 
@@ -22,11 +21,13 @@ def root():
 @app.get("/buscar/{producto}")
 def buscar_producto(producto: str):
     
-    return {
-        "producto": producto,
-        "mensaje": f"Resultados para '{producto}'",
-        "uso": "Usa /buscar/<producto> para buscar precios"
-    }
+    productos_demo = ["laptop", "mouse", "teclado", "monitor", "auriculares", "telefono"]
+    if producto.lower() in productos_demo:
+        return {"producto": producto, "precio": "Precio demo"}
+    else:
+        return {"producto": producto, "mensaje": "Producto no encontrado"}
 
 if __name__ == "__main__":
+    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
